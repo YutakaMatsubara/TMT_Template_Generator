@@ -35,6 +35,26 @@ def create_KnowledgeBase(name, id, version, author):
         KnowledgeBase.appendChild(KnowledgeBase_child)
     return KnowledgeBase
 
+# create child element for Values: value
+# |Values
+# |--value
+# |--value
+# |--value
+# |--...
+def create_Values(*values):
+    Values = doc.createElement("Values")
+    for v in values:
+        if v == "":
+            return ""
+        elif v == "Not Set":
+            Values.appendChild(doc.createElement("Value"))
+            return Values
+        else:
+            Value = doc.createElement("Value")
+            Value.appendChild(doc.createTextNode(str(v)))
+            Values.appendChild(Value)
+    return Values
+
 # create child element for ThreatMetaDatum: Name, Label, HideFromUI, Values(Value), Id, AttributeType
 # |ThreaMetaDatum
 # |--Name
@@ -59,8 +79,7 @@ def create_ThreatMetaDatum(name, label, hide_from_ui, values, description, id, a
             ThreatMetaDatum_child.appendChild(doc.createTextNode(hide_from_ui))
             ThreatMetaDatum.appendChild(ThreatMetaDatum_child)
         if ThreatMetaDatum_child.nodeName == ThreatMetaDatum_Children[3] and values != "":
-            ThreatMetaDatum_child.appendChild(doc.createElement("Value"))
-            ThreatMetaDatum.appendChild(ThreatMetaDatum_child)
+            ThreatMetaDatum.appendChild(values)
         if ThreatMetaDatum_child.nodeName == ThreatMetaDatum_Children[4] and description != "":
             ThreatMetaDatum_child.appendChild(doc.createTextNode(description))
             ThreatMetaDatum.appendChild(ThreatMetaDatum_child)

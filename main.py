@@ -19,14 +19,33 @@ def main():
                 node.appendChild(ThreatMetaData)
                 for node in ThreatMetaData.childNodes:
                     if node.nodeName == "PropertiesMetaData":
-                        Title = create_ThreatMetaDatum("Title", "Title", "false", "N/A", "", str(uuid.uuid4()), "0")
+                        Title_Values = create_Values("Not Set")
+                        Title = create_ThreatMetaDatum("Title", "Title", "false", Title_Values, "", str(uuid.uuid4()), "0")
                         node.appendChild(Title)
 
-                        UserThreatCategory = create_ThreatMetaDatum("UserThreatCategory", "Category", "false", "", "", "", "0")
+                        UserThreatCategory_Values = create_Values("")
+                        UserThreatCategory = create_ThreatMetaDatum("UserThreatCategory", "Category", "false", UserThreatCategory_Values, "", "", "0")
                         node.appendChild(UserThreatCategory)
 
-                        UserThreatShortDescription = create_ThreatMetaDatum("UserThreatShortDescription", "Short Description", "false", "N/A", "", str(uuid.uuid4()), "0")
+                        UserThreatShortDescription_Values = create_Values("Not Set")
+                        UserThreatShortDescription = create_ThreatMetaDatum("UserThreatShortDescription", "Short Description", "false", UserThreatShortDescription_Values, "", str(uuid.uuid4()), "0")
                         node.appendChild(UserThreatShortDescription)
+
+                        UserThreatDescription_Values = create_Values("Not Set")
+                        UserThreatDescription = create_ThreatMetaDatum("UserThreatDescription", "Description", "false", UserThreatDescription_Values, "", str(uuid.uuid4()), "0")
+                        node.appendChild(UserThreatDescription)
+
+                        StateInformation_Values = create_Values("Not Set")
+                        StateInformation = create_ThreatMetaDatum("StateInformation", "Justification", "false", StateInformation_Values, "", str(uuid.uuid4()), "0")
+                        node.appendChild(StateInformation)
+
+                        InteractionString_Values = create_Values("Not Set")
+                        InteractionString = create_ThreatMetaDatum("InteractionString", "Interaction", "false", InteractionString_Values, "", str(uuid.uuid4()), "0")
+                        node.appendChild(InteractionString)
+
+                        Priority_Values = create_Values("High", "Medium", "Low")
+                        Priority = create_ThreatMetaDatum("Priority", "Priority", "false", Priority_Values, "Priority", str(uuid.uuid4()), "1")
+                        node.appendChild(Priority)
             elif node.nodeName == "GenericElements":
                 GenericElementType = create_ElementType()
                 node.appendChild(GenericElementType)
