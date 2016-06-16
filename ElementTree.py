@@ -44,14 +44,32 @@ def create_KnowledgeBase(name, id, version, author):
 # |----Value
 # |--Id
 # |--AttributeType
-def create_ThreatMetaDatum():
+def create_ThreatMetaDatum(name, label, hide_from_ui, values, description, id, attributes_type):
     ThreatMetaDatum_Children = ["Name", "Label", "HideFromUI", "Values", "Description", "Id", "AttributeType"]
     ThreatMetaDatum = doc.createElement("ThreatMetaDatum")
     for child in ThreatMetaDatum_Children:
         ThreatMetaDatum_child = doc.createElement(child)
-        ThreatMetaDatum.appendChild(ThreatMetaDatum_child)
-        if ThreatMetaDatum_child.nodeName == "Values":
+        if ThreatMetaDatum_child.nodeName == ThreatMetaDatum_Children[0] and name != "":
+            ThreatMetaDatum_child.appendChild(doc.createTextNode(name))
+            ThreatMetaDatum.appendChild(ThreatMetaDatum_child)
+        if ThreatMetaDatum_child.nodeName == ThreatMetaDatum_Children[1] and label != "":
+            ThreatMetaDatum_child.appendChild(doc.createTextNode(label))
+            ThreatMetaDatum.appendChild(ThreatMetaDatum_child)
+        if ThreatMetaDatum_child.nodeName == ThreatMetaDatum_Children[2] and hide_from_ui != "":
+            ThreatMetaDatum_child.appendChild(doc.createTextNode(hide_from_ui))
+            ThreatMetaDatum.appendChild(ThreatMetaDatum_child)
+        if ThreatMetaDatum_child.nodeName == ThreatMetaDatum_Children[3] and values != "":
             ThreatMetaDatum_child.appendChild(doc.createElement("Value"))
+            ThreatMetaDatum.appendChild(ThreatMetaDatum_child)
+        if ThreatMetaDatum_child.nodeName == ThreatMetaDatum_Children[4] and description != "":
+            ThreatMetaDatum_child.appendChild(doc.createTextNode(description))
+            ThreatMetaDatum.appendChild(ThreatMetaDatum_child)
+        if ThreatMetaDatum_child.nodeName == ThreatMetaDatum_Children[5] and id != "":
+            ThreatMetaDatum_child.appendChild(doc.createTextNode(id))
+            ThreatMetaDatum.appendChild(ThreatMetaDatum_child)
+        if ThreatMetaDatum_child.nodeName == ThreatMetaDatum_Children[6] and attributes_type != "":
+            ThreatMetaDatum_child.appendChild(doc.createTextNode(attributes_type))
+            ThreatMetaDatum.appendChild(ThreatMetaDatum_child)
     return ThreatMetaDatum
 
 # create child element for ThreatMetaData: IsPriorityUsed, IsStatusUsed, PropertiesMetaData
@@ -65,8 +83,6 @@ def create_ThreatMetaData():
     ThreatMetaData = doc.createElement("ThreatMetaData")
     for child in ThreatMetaData_Children:
         ThreatMetaData_child = doc.createElement(child)
-        if ThreatMetaData_child.nodeName == "PropertiesMetaData":
-            ThreatMetaData_child.appendChild(create_ThreatMetaDatum())
         ThreatMetaData.appendChild(ThreatMetaData_child)
     return ThreatMetaData
 
@@ -129,8 +145,6 @@ def create_ThreatType():
         if ThreatType_child.nodeName == "GenerationFilters":
             ThreatType_child.appendChild(doc.createElement("Include"))
             ThreatType_child.appendChild(doc.createElement("Exclude"))
-        if ThreatType_child.nodeName == "PropertiesMetaData":
-            ThreatType.appendChild(create_ThreatMetaDatum())
     return ThreatType
 
 # output xml documents to the console as well as to a file named: test.xml

@@ -17,6 +17,16 @@ def main():
             if node.nodeName == "ThreatMetaData":
                 ThreatMetaData = create_ThreatMetaData()
                 node.appendChild(ThreatMetaData)
+                for node in ThreatMetaData.childNodes:
+                    if node.nodeName == "PropertiesMetaData":
+                        Title = create_ThreatMetaDatum("Title", "Title", "false", "N/A", "", str(uuid.uuid4()), "0")
+                        node.appendChild(Title)
+
+                        UserThreatCategory = create_ThreatMetaDatum("UserThreatCategory", "Category", "false", "", "", "", "0")
+                        node.appendChild(UserThreatCategory)
+
+                        UserThreatShortDescription = create_ThreatMetaDatum("UserThreatShortDescription", "Short Description", "false", "N/A", "", str(uuid.uuid4()), "0")
+                        node.appendChild(UserThreatShortDescription)
             elif node.nodeName == "GenericElements":
                 GenericElementType = create_ElementType()
                 node.appendChild(GenericElementType)
