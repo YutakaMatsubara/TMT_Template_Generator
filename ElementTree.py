@@ -117,11 +117,102 @@ def create_ThreatMetaData():
 # |--StrokeThickness
 # |--ImageLocation
 # |--Attributes
-def create_ElementType():
-    ElementType_Children = {"Name", "ID", "Description", "ParentElement", "Image", "Hidden", "Representation", "StrokeThickness", "ImageLocation", "Attributes"}
+def create_GenericElementType(name, id, description, parent_element, image, hidden, representation, stroke_thickness, image_location, attributes):
+    ElementType_Children = ["Name", "ID", "Description", "ParentElement", "Image", "Hidden", "Representation", "StrokeThickness", "ImageLocation", "Attributes"]
     ElementType = doc.createElement("ElementType")
     for child in ElementType_Children:
-        ElementType.appendChild(doc.createElement(child))
+        ElementType_child = doc.createElement(child)
+        if ElementType_child.nodeName == ElementType_Children[0]:
+            if name != "":
+                ElementType_child.appendChild(doc.createTextNode(name))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[1]:
+            if id != "":
+                ElementType_child.appendChild(doc.createTextNode(id))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[2]:
+            if description != "":
+                ElementType_child.appendChild(doc.createTextNode(description))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[3]:
+            if parent_element != "":
+                ElementType_child.appendChild(doc.createTextNode(parent_element))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[4]:
+            if image != "":
+                ElementType_child.appendChild(doc.createTextNode(image))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[5]:
+            if hidden != "":
+                ElementType_child.appendChild(doc.createTextNode(hidden))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[6]:
+            if representation != "":
+                ElementType_child.appendChild(doc.createTextNode(representation))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[7]:
+            if stroke_thickness != "":
+                ElementType_child.appendChild(doc.createTextNode(stroke_thickness))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[8]:
+            if image_location != "":
+                ElementType_child.appendChild(doc.createTextNode(image_location))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[9]:
+            if attributes != "":
+                ElementType_child.appendChild(doc.createTextNode(attributes))
+            ElementType.appendChild(ElementType_child)
+    return ElementType
+
+def create_StandardElementType(name, id, description, parent_element, image, image_stream, hidden, representation, stroke_thickness, image_location, attributes):
+    ElementType_Children = ["Name", "ID", "Description", "ParentElement", "Image", "ImageStream", "Hidden", "Representation", "StrokeThickness", "ImageLocation", "Attributes"]
+    ElementType = doc.createElement("ElementType")
+    for child in ElementType_Children:
+        ElementType_child = doc.createElement(child)
+        if ElementType_child.nodeName == ElementType_Children[0]:
+            if name != "":
+                ElementType_child.appendChild(doc.createTextNode(name))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[1]:
+            if id != "":
+                ElementType_child.appendChild(doc.createTextNode(id))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[2]:
+            if description != "":
+                ElementType_child.appendChild(doc.createTextNode(description))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[3]:
+            if parent_element != "":
+                ElementType_child.appendChild(doc.createTextNode(parent_element))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[4]:
+            if image != "":
+                ElementType_child.appendChild(doc.createTextNode(image))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[5]:
+            if image_stream != "":
+                ElementType_child.appendChild(doc.createTextNode(image_stream))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[6]:
+            if hidden != "":
+                ElementType_child.appendChild(doc.createTextNode(hidden))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[7]:
+            if representation != "":
+                ElementType_child.appendChild(doc.createTextNode(representation))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[8]:
+            if stroke_thickness != "":
+                ElementType_child.appendChild(doc.createTextNode(stroke_thickness))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[9]:
+            if image_location != "":
+                ElementType_child.appendChild(doc.createTextNode(image_location))
+            ElementType.appendChild(ElementType_child)
+        if ElementType_child.nodeName == ElementType_Children[10]:
+            if attributes != "":
+                ElementType_child.appendChild(doc.createTextNode(attributes))
+            ElementType.appendChild(ElementType_child)
     return ElementType
 
 # create child element for ThreatCategory: "Name", "Id", "ShortDescription
@@ -169,8 +260,8 @@ def create_ThreatType():
 # output xml documents to the console as well as to a file named: test.xml
 def create_xml_file():
     # to console
-    print (doc.toprettyxml(indent="    ", encoding="utf-8"))
+    print (doc.toprettyxml(indent="  ", encoding="utf-8"))
     # to file
     f = open("test.xml", "w+")
-    f.write(doc.toprettyxml(indent="    ", encoding="utf-8").decode("utf-8"))
+    f.write(doc.toprettyxml(indent="  ", encoding="utf-8").decode("utf-8"))
     f.close
