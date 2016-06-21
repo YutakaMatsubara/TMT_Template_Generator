@@ -53,12 +53,13 @@ def main():
                 StandardElementType = create_StandardElementType("Unlocking the door",  str(uuid.uuid4()), "", str(uuid.uuid4()), "", "", "false", "Line", "0", "", "")
                 node.appendChild(StandardElementType)
             elif node.nodeName == "ThreatCategories":
-                ThreatCategory = create_ThreatCategory()
+                ThreatCategory = create_ThreatCategory("Omission", str(uuid.uuid4()), "The service is never deliverd.")
                 node.appendChild(ThreatCategory)
             elif node.nodeName == "ThreatTypes":
                 ThreatType = create_ThreatType()
                 node.appendChild(ThreatType)
 
+# Output the XML file to disk.
     create_xml_file()
 
 if __name__ == "__main__":

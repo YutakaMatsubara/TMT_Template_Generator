@@ -105,7 +105,7 @@ def create_ThreatMetaData():
         ThreatMetaData.appendChild(ThreatMetaData_child)
     return ThreatMetaData
 
-# create child element for ElementType: "Name", "ID", "Description", "ParentElement", "Image", "Hidden", "Representation", "StrokeThickness", "ImageLocation", "Attributes"
+# create child element for GenericElementType: "Name", "ID", "Description", "ParentElement", "Image", "Hidden", "Representation", "StrokeThickness", "ImageLocation", "Attributes"
 # |ElementType
 # |--Name
 # |--ID
@@ -220,11 +220,23 @@ def create_StandardElementType(name, id, description, parent_element, image, ima
 # |--Name
 # |--Id
 # |--ShortDescription
-def create_ThreatCategory():
-    ThreatCategory_Children = {"Name", "Id", "ShortDescription"}
+def create_ThreatCategory(name, id, short_description):
+    ThreatCategory_Children = ["Name", "Id", "ShortDescription"]
     ThreatCategory = doc.createElement("ThreatCategory")
     for child in ThreatCategory_Children:
-        ThreatCategory.appendChild(doc.createElement(child))
+        ThreatCategory_child = doc.createElement(child)
+        if ThreatCategory_child.nodeName == ThreatCategory_Children[0]:
+            if name != "":
+                ThreatCategory_child.appendChild(doc.createTextNode(name))
+            ThreatCategory.appendChild(ThreatCategory_child)
+        if ThreatCategory_child.nodeName == ThreatCategory_Children[1]:
+            if id != "":
+                ThreatCategory_child.appendChild(doc.createTextNode(id))
+            ThreatCategory.appendChild(ThreatCategory_child)
+        if ThreatCategory_child.nodeName == ThreatCategory_Children[2]:
+            if short_description != "":
+                ThreatCategory_child.appendChild(doc.createTextNode(short_description))
+            ThreatCategory.appendChild(ThreatCategory_child)
     return ThreatCategory
 
 # create child element for ThreatType: "GenerationFilters", "Id", "ShortTitle", "Category", "RelatedCategory", "Description", "PropertiesMetaData"
