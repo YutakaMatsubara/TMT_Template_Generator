@@ -239,6 +239,45 @@ def create_ThreatCategory(name, id, short_description):
             ThreatCategory.appendChild(ThreatCategory_child)
     return ThreatCategory
 
+def AND(and1, and2):
+    AND = and1 + " and " + and2
+    return AND
+
+def OR(or1, or2):
+    OR = or1 + " or " + or2
+    return OR
+
+def create_IncludeStatement(id1, id2):
+    id1 = "'" + id1 + "'"
+    id2 = "'" + id2 + "'"
+
+    source = "source is"
+    target = "target is"
+
+    Include1 = "(" + AND(source + " " + id1, target + " " + id2) + ")"
+    Include2 = "(" + AND(source + " " + id2, target + " " + id1) + ")"
+    Include = OR(Include1, Include2)
+
+    return Include
+
+# create child element for ThreatType -> GenerationFilters: "Include", "Exclude" 
+# |ThreatType
+# |--GenerationFilters
+# |----Include
+# |----Exclude
+def create_GenerationFilters(include, exclude):
+    GenerationFilters = doc.createElement("GenerationFilters")
+    GenerationFilters.appendChild(doc.createElement("Include"))
+    GenerationFilters.appendChild(doc.createElement("Exclude"))
+
+    for node in GenerationFilters.childNodes:
+        if node.nodeName == "Include" and include != "":
+            node.appendChild(doc.createTextNode(include))
+        elif node.nodeName == "Exclude" and exclude != "":
+            node.appendChild(doc.createTextNode(exclude))
+
+    return GenerationFilters
+
 # create child element for ThreatType: "GenerationFilters", "Id", "ShortTitle", "Category", "RelatedCategory", "Description", "PropertiesMetaData"
 # |ThreatType
 # |--GenerationFilters
@@ -258,15 +297,26 @@ def create_ThreatCategory(name, id, short_description):
 # |--------Value
 # |------Id
 # |------AttributeType
-def create_ThreatType():
-    ThreatType_Children = {"GenerationFilters", "Id", "ShortTitle", "Category", "RelatedCategory", "Description", "PropertiesMetaData"}
+def create_ThreatType(generation_filters, id, short_title, category, related_category, description, properties_meta_data):
+    ThreatType_Children = ["GenerationFilters", "Id", "ShortTitle", "Category", "RelatedCategory", "Description", "PropertiesMetaData"]
     ThreatType = doc.createElement("ThreatType")
     for child in ThreatType_Children:
-        ThreatType_child = doc.createElement(child)
-        ThreatType.appendChild(ThreatType_child)
-        if ThreatType_child.nodeName == "GenerationFilters":
-            ThreatType_child.appendChild(doc.createElement("Include"))
-            ThreatType_child.appendChild(doc.createElement("Exclude"))
+        if child == "GenerationFilters":
+            ThreatType.appendChild(generation_filters)
+        else:
+            ThreatType_child = doc.createElement(child)
+            ThreatType.appendChild(ThreatType_child)
+            if ThreatType_child.nodeName == ThreatType_Children[1] and id != "":
+                ThreatType_child.appendChild(doc.createTextNode(id))
+            elif ThreatType_child.nodeName == ThreatType_Children[2] and short_title != "":
+                ThreatType_child.appendChild(doc.createTextNode(short_title))
+            elif ThreatType_child.nodeName == ThreatType_Children[3] and category != "":
+                ThreatType_child.appendChild(doc.createTextNode(category))
+            elif ThreatType_child.nodeName == ThreatType_Children[4] and related_category != "":
+                ThreatType_child.appendChild(doc.createTextNode(related_category))
+            elif ThreatType_child.nodeName == ThreatType_Children[5] and description != "":
+                ThreatType_child.appendChild(doc.createTextNode(description))
+
     return ThreatType
 
 # output xml documents to the console as well as to a file named: test.xml
