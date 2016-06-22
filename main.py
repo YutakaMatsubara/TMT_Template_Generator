@@ -68,8 +68,15 @@ def main():
             elif node.nodeName == "ThreatTypes":
                 Include1 = create_IncludeStatement(Automobiles_uuid, KeyFob_uuid)
                 GenerationFilters1 = create_GenerationFilters(Include1, "")
-                ThreatType = create_ThreatType(GenerationFilters1, str(uuid.uuid4()), "Service Omitted", Omission_uuid, "", "{flow.Name} will not be initiated between {source.Name} and {target.Name}.", "")
+
+                UserThreatDescription_Values = create_Values("{flow.Name} will not be initiated between {source.Name} and {target.Name}.")
+                UserThreatDescription = create_ThreatMetaDatum("UserThreatDescription", "Description", "false", UserThreatDescription_Values, "", str(uuid.uuid4()), "0")
+                Priority_Values = create_Values("High", "Medium", "Low")
+                Priority = create_ThreatMetaDatum("Priority", "Priority", "false", Priority_Values, "Priority", str(uuid.uuid4()), "1")
+                PropertiesMetaData = create_PropertiesMetaData(UserThreatDescription, Priority)
+                ThreatType = create_ThreatType(GenerationFilters1, str(uuid.uuid4()), "Service Omitted", Omission_uuid, "", "{flow.Name} will not be initiated between {source.Name} and {target.Name}.", PropertiesMetaData)
                 node.appendChild(ThreatType)
+
 
 # Output the XML file to disk.
     create_xml_file()

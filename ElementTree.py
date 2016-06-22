@@ -278,6 +278,12 @@ def create_GenerationFilters(include, exclude):
 
     return GenerationFilters
 
+def create_PropertiesMetaData(*ThreatMetaDatums):
+    PropertiesMetaData = doc.createElement("PropertiesMetaData")
+    for ThreatMetaDatum in ThreatMetaDatums:
+        PropertiesMetaData.appendChild(ThreatMetaDatum)
+    return PropertiesMetaData
+
 # create child element for ThreatType: "GenerationFilters", "Id", "ShortTitle", "Category", "RelatedCategory", "Description", "PropertiesMetaData"
 # |ThreatType
 # |--GenerationFilters
@@ -301,21 +307,26 @@ def create_ThreatType(generation_filters, id, short_title, category, related_cat
     ThreatType_Children = ["GenerationFilters", "Id", "ShortTitle", "Category", "RelatedCategory", "Description", "PropertiesMetaData"]
     ThreatType = doc.createElement("ThreatType")
     for child in ThreatType_Children:
-        if child == "GenerationFilters":
+        if child == ThreatType_Children[0]:
             ThreatType.appendChild(generation_filters)
-        else:
-            ThreatType_child = doc.createElement(child)
-            ThreatType.appendChild(ThreatType_child)
-            if ThreatType_child.nodeName == ThreatType_Children[1] and id != "":
-                ThreatType_child.appendChild(doc.createTextNode(id))
-            elif ThreatType_child.nodeName == ThreatType_Children[2] and short_title != "":
-                ThreatType_child.appendChild(doc.createTextNode(short_title))
-            elif ThreatType_child.nodeName == ThreatType_Children[3] and category != "":
-                ThreatType_child.appendChild(doc.createTextNode(category))
-            elif ThreatType_child.nodeName == ThreatType_Children[4] and related_category != "":
-                ThreatType_child.appendChild(doc.createTextNode(related_category))
-            elif ThreatType_child.nodeName == ThreatType_Children[5] and description != "":
-                ThreatType_child.appendChild(doc.createTextNode(description))
+            continue
+
+        ThreatType_child = doc.createElement(child)
+        ThreatType.appendChild(ThreatType_child)
+        if ThreatType_child.nodeName == ThreatType_Children[1] and id != "":
+            ThreatType_child.appendChild(doc.createTextNode(id))
+        elif ThreatType_child.nodeName == ThreatType_Children[2] and short_title != "":
+            ThreatType_child.appendChild(doc.createTextNode(short_title))
+        elif ThreatType_child.nodeName == ThreatType_Children[3] and category != "":
+            ThreatType_child.appendChild(doc.createTextNode(category))
+        elif ThreatType_child.nodeName == ThreatType_Children[4] and related_category != "":
+            ThreatType_child.appendChild(doc.createTextNode(related_category))
+        elif ThreatType_child.nodeName == ThreatType_Children[5] and description != "":
+            ThreatType_child.appendChild(doc.createTextNode(description))
+
+        if child == ThreatType_Children[6]:
+            ThreatType.appendChild(properties_meta_data)
+            continue
 
     return ThreatType
 
