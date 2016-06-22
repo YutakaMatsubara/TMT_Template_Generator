@@ -97,12 +97,20 @@ def create_ThreatMetaDatum(name, label, hide_from_ui, values, description, id, a
 # |----IsPriorityUsed
 # |----IsStatusUsed
 # |----PropertiesMetaData
-def create_ThreatMetaData():
+def create_ThreatMetaData(is_priority_used, is_status_used, properties_meta_data):
     ThreatMetaData_Children = ["IsPriorityUsed", "IsStatusUsed", "PropertiesMetaData"]
     ThreatMetaData = doc.createElement("ThreatMetaData")
     for child in ThreatMetaData_Children:
-        ThreatMetaData_child = doc.createElement(child)
-        ThreatMetaData.appendChild(ThreatMetaData_child)
+        if child == ThreatMetaData_Children[2]:
+            ThreatMetaData.appendChild(properties_meta_data)
+            continue
+        else:
+            ThreatMetaData_child = doc.createElement(child)
+            ThreatMetaData.appendChild(ThreatMetaData_child)
+            if child == ThreatMetaData_Children[0] and is_priority_used != "":
+                ThreatMetaData_child.appendChild(doc.createTextNode(is_priority_used))
+            elif child == ThreatMetaData_Children[1] and is_priority_used != "":
+                ThreatMetaData_child.appendChild(doc.createTextNode(is_status_used))
     return ThreatMetaData
 
 # create child element for GenericElementType: "Name", "ID", "Description", "ParentElement", "Image", "Hidden", "Representation", "StrokeThickness", "ImageLocation", "Attributes"
