@@ -51,7 +51,7 @@ def main():
                 Priority_Values = create_Values("High", "Medium", "Low")
                 Priority = create_ThreatMetaDatum("Priority", "Priority", "false", Priority_Values, "Priority", Priority_uuid, "1")
 
-                PropertiesMetaData = create_PropertiesMetaData(Title, UserThreatCategory, UserThreatDescription, StateInformation, InteractionString, Priority)
+                PropertiesMetaData = create_PropertiesMetaData(Title, UserThreatCategory, UserThreatShortDescription, UserThreatDescription, StateInformation, InteractionString, Priority)
                 ThreatMetaData_new = create_ThreatMetaData("true", "true", PropertiesMetaData)
                 KnowledgeBase.replaceChild(ThreatMetaData_new, node)
                 continue
