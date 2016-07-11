@@ -66,32 +66,56 @@ def create_Values(*values):
 # |----Value
 # |--Id
 # |--AttributeType
-def create_ThreatMetaDatum(name, label, hide_from_ui, values, description, id, attributes_type):
-    ThreatMetaDatum_Children = ["Name", "Label", "HideFromUI", "Values", "Description", "Id", "AttributeType"]
-    ThreatMetaDatum = doc.createElement("ThreatMetaDatum")
-    for child in ThreatMetaDatum_Children:
-        ThreatMetaDatum_child = doc.createElement(child)
-        if ThreatMetaDatum_child.nodeName == ThreatMetaDatum_Children[0] and name != "":
-            ThreatMetaDatum_child.appendChild(doc.createTextNode(name))
-            ThreatMetaDatum.appendChild(ThreatMetaDatum_child)
-        if ThreatMetaDatum_child.nodeName == ThreatMetaDatum_Children[1] and label != "":
-            ThreatMetaDatum_child.appendChild(doc.createTextNode(label))
-            ThreatMetaDatum.appendChild(ThreatMetaDatum_child)
-        if ThreatMetaDatum_child.nodeName == ThreatMetaDatum_Children[2] and hide_from_ui != "":
-            ThreatMetaDatum_child.appendChild(doc.createTextNode(hide_from_ui))
-            ThreatMetaDatum.appendChild(ThreatMetaDatum_child)
-        if ThreatMetaDatum_child.nodeName == ThreatMetaDatum_Children[3] and values != "":
-            ThreatMetaDatum.appendChild(values)
-        if ThreatMetaDatum_child.nodeName == ThreatMetaDatum_Children[4] and description != "":
-            ThreatMetaDatum_child.appendChild(doc.createTextNode(description))
-            ThreatMetaDatum.appendChild(ThreatMetaDatum_child)
-        if ThreatMetaDatum_child.nodeName == ThreatMetaDatum_Children[5] and id != "":
-            ThreatMetaDatum_child.appendChild(doc.createTextNode(id))
-            ThreatMetaDatum.appendChild(ThreatMetaDatum_child)
-        if ThreatMetaDatum_child.nodeName == ThreatMetaDatum_Children[6] and attributes_type != "":
-            ThreatMetaDatum_child.appendChild(doc.createTextNode(attributes_type))
-            ThreatMetaDatum.appendChild(ThreatMetaDatum_child)
-    return ThreatMetaDatum
+class PropertiesMetaData:
+    def __init__(self, name, label, hide_from_ui, values, description, attributes_type):
+        self.name = name
+        self.label = label
+        self.hide_from_ui = hide_from_ui
+        self.values = values
+        self.description = description
+        self.id = str(uuid.uuid4())
+        self.attributes_type = attributes_type
+
+    def create_ThreatMetaDatum(self):
+        ThreatMetaDatum = doc.createElement("ThreatMetaDatum")
+
+        ThreatMetaDatum_name = doc.createElement("Name")
+        if self.name != "":
+            ThreatMetaDatum_name.appendChild(doc.createTextNode(self.name))
+        ThreatMetaDatum.appendChild(ThreatMetaDatum_name)
+
+        ThreatMetaDatum_label = doc.createElement("Label")
+        if self.label != "":
+            ThreatMetaDatum_label.appendChild(doc.createTextNode(self.label))
+        ThreatMetaDatum.appendChild(ThreatMetaDatum_label)        
+
+        ThreatMetaDatum_hide_from_ui = doc.createElement("HideFromUI")
+        if self.hide_from_ui != "":
+            ThreatMetaDatum_hide_from_ui.appendChild(doc.createTextNode(self.hide_from_ui))
+        ThreatMetaDatum.appendChild(ThreatMetaDatum_hide_from_ui)
+
+        ThreatMetaDatum_values = doc.createElement("Values")
+        if self.values != "":
+            ThreatMetaDatum.appendChild(self.values)
+
+        ThreatMetaDatum_description = doc.createElement("description")
+        if self.description != "":
+            ThreatMetaDatum_description.appendChild(doc.createTextNode(self.description))
+        ThreatMetaDatum.appendChild(ThreatMetaDatum_description)  
+
+        ThreatMetaDatum_id = doc.createElement("Id")
+        ThreatMetaDatum_label.appendChild(doc.createTextNode(self.id))
+        ThreatMetaDatum.appendChild(ThreatMetaDatum_id)  
+
+        ThreatMetaDatum_attributes_type = doc.createElement("AttributeType")
+        if self.attributes_type != "":
+            ThreatMetaDatum_attributes_type.appendChild(doc.createTextNode(self.attributes_type))
+        ThreatMetaDatum.appendChild(ThreatMetaDatum_attributes_type)          
+
+        return ThreatMetaDatum
+
+    def id(self):
+        return self.id
 
 # create child element for ThreatMetaData: IsPriorityUsed, IsStatusUsed, PropertiesMetaData
 # |KnowledgeBase
@@ -297,6 +321,19 @@ class ThreatCategory:
         ThreatCategory.appendChild(ThreatCategory_short_description)
 
         return ThreatCategory
+
+    def id(self):
+        return self.id
+
+class ThreatType:
+    def __init__(self, generation_filters, short_title, category, related_category, description, properties_meta_data):
+        self.generation_filters = generation_filters
+        self.id = str(uuid.uuid4())
+        self.short_title = short_title
+        self.category = category
+        self.related_category = related_category
+        self.description = description
+        self.properties_meta_data = properties_meta_data
 
 def AND(and1, and2):
     AND = and1 + " and " + and2
