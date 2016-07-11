@@ -90,11 +90,15 @@ def main():
                 Automobiles = GenericElement("Automobiles", "", "ROOT", "", "false", "Rectangle", "0", "", "")
                 node.appendChild(Automobiles.create_ElementType())
 
-                KeyFob = GenericElement("Key Fob", "", "ROOT", "", "false", "Rectangle", "0", "", "")
+                KeyFob = GenericElement("Generic Operational Request", "", "ROOT", "", "false", "Rectangle", "0", "", "")
                 node.appendChild(KeyFob.create_ElementType())
+
+                GenericOperationalRequest = GenericElement("Key Fob", "", "ROOT", "", "false", "Line", "0", "", "")
+                node.appendChild(GenericOperationalRequest.create_ElementType())
+
             elif node.nodeName == "StandardElements":
-                StandardElementType = create_StandardElementType("Unlocking the door",  str(uuid.uuid4()), "", str(uuid.uuid4()), "", "", "false", "Line", "0", "", "")
-                node.appendChild(StandardElementType)
+                UnlockingTheDoor = StandardElement("Unlocking the door", "", GenericOperationalRequest.id, "", "", "false", "Line", "0", "", "")
+                node.appendChild(UnlockingTheDoor.create_ElementType())
             elif node.nodeName == "ThreatCategories":
                 ThreatCategory = create_ThreatCategory("Omission", Omission_uuid, "The service is never deliverd.")
                 node.appendChild(ThreatCategory)

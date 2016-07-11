@@ -195,6 +195,78 @@ class GenericElement:
     def id(self):
         return self.id
 
+class StandardElement:
+    'Common base class for all Standard Elements'
+
+    def __init__(self, name, description, parent_element, image, image_stream, hidden, representation, stroke_thickness, image_location, attributes):
+        self.name = name     
+        self.id = str(uuid.uuid4())
+        self.description = description
+        self.parent_element = parent_element
+        self.image = image
+        self.image_stream = image_stream
+        self.hidden = hidden
+        self.representation = representation
+        self.stroke_thickness = stroke_thickness
+        self.image_location = image_location
+        self.attributes = attributes
+
+    def create_ElementType(self):
+        ElementType = doc.createElement("ElementType")
+
+        ElementType_name = doc.createElement("Name")
+        if self.name != "":
+            ElementType_name.appendChild(doc.createTextNode(self.name))
+        ElementType.appendChild(ElementType_name)
+        
+        ElementType_id = doc.createElement("ID")
+        ElementType_id.appendChild(doc.createTextNode(self.id))
+        ElementType.appendChild(ElementType_id)
+
+        ElementType_parent_element = doc.createElement("ParentElement")
+        if self.parent_element != "":
+            ElementType_parent_element.appendChild(doc.createTextNode(self.parent_element))
+        ElementType.appendChild(ElementType_parent_element)
+
+        ElementType_image = doc.createElement("Image")
+        if self.image != "":
+            ElementType_image.appendChild(doc.createTextNode(self.image))
+        ElementType.appendChild(ElementType_image)
+
+        ElementType_image_stream = doc.createElement("ImageStream")
+        if self.image_stream != "":
+            ElementType_image.appendChild(doc.createTextNode(self.image_stream))
+        ElementType.appendChild(ElementType_image_stream)
+
+        ElementType_hidden = doc.createElement("Hidden")
+        if self.hidden != "":
+            ElementType_hidden.appendChild(doc.createTextNode(self.hidden))
+        ElementType.appendChild(ElementType_hidden)
+
+        ElementType_representation = doc.createElement("Representation")
+        if self.representation != "":
+            ElementType_representation.appendChild(doc.createTextNode(self.representation))
+        ElementType.appendChild(ElementType_representation)
+
+        ElementType_stroke_thickness = doc.createElement("StrokeThickness")
+        if self.stroke_thickness != "":
+            ElementType_stroke_thickness.appendChild(doc.createTextNode(self.stroke_thickness))
+        ElementType.appendChild(ElementType_stroke_thickness)
+
+        ElementType_image_location = doc.createElement("ImageLocation")
+        if self.image_location != "":
+            ElementType_image_location.appendChild(doc.createTextNode(self.image_location))
+        ElementType.appendChild(ElementType_image_location)
+
+        ElementType_attributes = doc.createElement("Attributes")
+        if self.attributes != "":
+            ElementType_attributes.appendChild(doc.createTextNode(self.attributes))
+        ElementType.appendChild(ElementType_attributes)
+
+        return ElementType
+
+    def id(self):
+        return self.id
 
 def create_StandardElementType(name, id, description, parent_element, image, image_stream, hidden, representation, stroke_thickness, image_location, attributes):
     ElementType_Children = ["Name", "ID", "Description", "ParentElement", "Image", "ImageStream", "Hidden", "Representation", "StrokeThickness", "ImageLocation", "Attributes"]
