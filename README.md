@@ -27,5 +27,5 @@ A TMT formatted template ready to be imported into Threat Modeling Tool 2016.
 2. Confirm that you have Python 3.0 or even higher installed in your environment.
 `$ python --version`
 3. Python-run the main.py script to start generating the TMT template.
-4. **Automation still under development. Coming out soon.**You should notice a test.xml file created inside the folder. Please rename the file to anyname you want but end with the filename extention of tb7. e.g. NewTemplate.tb7.
+4. **Automation still under development. Coming out soon.** You should notice a test.xml file created inside the folder. Please rename the file to anyname you want but end with the filename extention of tb7. e.g. NewTemplate.tb7.
 5. Launch the TMT 2016, then import the template, and startcreating your security model and analyzing your model.
