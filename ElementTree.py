@@ -268,80 +268,35 @@ class StandardElement:
     def id(self):
         return self.id
 
-def create_StandardElementType(name, id, description, parent_element, image, image_stream, hidden, representation, stroke_thickness, image_location, attributes):
-    ElementType_Children = ["Name", "ID", "Description", "ParentElement", "Image", "ImageStream", "Hidden", "Representation", "StrokeThickness", "ImageLocation", "Attributes"]
-    ElementType = doc.createElement("ElementType")
-    for child in ElementType_Children:
-        ElementType_child = doc.createElement(child)
-        if ElementType_child.nodeName == ElementType_Children[0]:
-            if name != "":
-                ElementType_child.appendChild(doc.createTextNode(name))
-            ElementType.appendChild(ElementType_child)
-        if ElementType_child.nodeName == ElementType_Children[1]:
-            if id != "":
-                ElementType_child.appendChild(doc.createTextNode(id))
-            ElementType.appendChild(ElementType_child)
-        if ElementType_child.nodeName == ElementType_Children[2]:
-            if description != "":
-                ElementType_child.appendChild(doc.createTextNode(description))
-            ElementType.appendChild(ElementType_child)
-        if ElementType_child.nodeName == ElementType_Children[3]:
-            if parent_element != "":
-                ElementType_child.appendChild(doc.createTextNode(parent_element))
-            ElementType.appendChild(ElementType_child)
-        if ElementType_child.nodeName == ElementType_Children[4]:
-            if image != "":
-                ElementType_child.appendChild(doc.createTextNode(image))
-            ElementType.appendChild(ElementType_child)
-        if ElementType_child.nodeName == ElementType_Children[5]:
-            if image_stream != "":
-                ElementType_child.appendChild(doc.createTextNode(image_stream))
-            ElementType.appendChild(ElementType_child)
-        if ElementType_child.nodeName == ElementType_Children[6]:
-            if hidden != "":
-                ElementType_child.appendChild(doc.createTextNode(hidden))
-            ElementType.appendChild(ElementType_child)
-        if ElementType_child.nodeName == ElementType_Children[7]:
-            if representation != "":
-                ElementType_child.appendChild(doc.createTextNode(representation))
-            ElementType.appendChild(ElementType_child)
-        if ElementType_child.nodeName == ElementType_Children[8]:
-            if stroke_thickness != "":
-                ElementType_child.appendChild(doc.createTextNode(stroke_thickness))
-            ElementType.appendChild(ElementType_child)
-        if ElementType_child.nodeName == ElementType_Children[9]:
-            if image_location != "":
-                ElementType_child.appendChild(doc.createTextNode(image_location))
-            ElementType.appendChild(ElementType_child)
-        if ElementType_child.nodeName == ElementType_Children[10]:
-            if attributes != "":
-                ElementType_child.appendChild(doc.createTextNode(attributes))
-            ElementType.appendChild(ElementType_child)
-    return ElementType
-
 # create child element for ThreatCategory: "Name", "Id", "ShortDescription
 # |ThreatCategory
 # |--Name
 # |--Id
 # |--ShortDescription
-def create_ThreatCategory(name, id, short_description):
-    ThreatCategory_Children = ["Name", "Id", "ShortDescription"]
-    ThreatCategory = doc.createElement("ThreatCategory")
-    for child in ThreatCategory_Children:
-        ThreatCategory_child = doc.createElement(child)
-        if ThreatCategory_child.nodeName == ThreatCategory_Children[0]:
-            if name != "":
-                ThreatCategory_child.appendChild(doc.createTextNode(name))
-            ThreatCategory.appendChild(ThreatCategory_child)
-        if ThreatCategory_child.nodeName == ThreatCategory_Children[1]:
-            if id != "":
-                ThreatCategory_child.appendChild(doc.createTextNode(id))
-            ThreatCategory.appendChild(ThreatCategory_child)
-        if ThreatCategory_child.nodeName == ThreatCategory_Children[2]:
-            if short_description != "":
-                ThreatCategory_child.appendChild(doc.createTextNode(short_description))
-            ThreatCategory.appendChild(ThreatCategory_child)
-    return ThreatCategory
+class ThreatCategory:
+    def __init__(self, name, short_description):
+        self.name = name
+        self.id = str(uuid.uuid4())
+        self.short_description = short_description
+
+    def create_ThreatCategory(self):
+        ThreatCategory = doc.createElement("ThreatCategory")
+
+        ThreatCategory_name = doc.createElement("Name")
+        if self.name != "":
+            ThreatCategory_name.appendChild(doc.createTextNode(self.name))
+        ThreatCategory.appendChild(ThreatCategory_name)
+        
+        ThreatCategory_id = doc.createElement("Id")
+        ThreatCategory_id.appendChild(doc.createTextNode(self.id))
+        ThreatCategory.appendChild(ThreatCategory_id)
+
+        ThreatCategory_short_description = doc.createElement("ShortDescription")
+        if self.short_description != "":
+            ThreatCategory_short_description.appendChild(doc.createTextNode(self.short_description))
+        ThreatCategory.appendChild(ThreatCategory_short_description)
+
+        return ThreatCategory
 
 def AND(and1, and2):
     AND = and1 + " and " + and2
