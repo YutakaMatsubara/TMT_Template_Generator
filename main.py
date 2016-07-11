@@ -3,32 +3,19 @@ import uuid
 
 from ElementTree import *
 
-whitespace = " "
-
 t_name = "Service Level"
 t_id = str(uuid.uuid4())
 t_version = "1.0.0.2"
 t_author = "TMT Template Generator"
 
-Title_uuid = str(uuid.uuid4())
-UserThreatCategory_uuid = str(uuid.uuid4())
-UserThreatShortDescription_uuid = str(uuid.uuid4())
-UserThreatDescription_uuid = str(uuid.uuid4())
-StateInformation_uuid = str(uuid.uuid4())
-InteractionString_uuid = str(uuid.uuid4())
-Priority_uuid = str(uuid.uuid4())
-
-Automobiles_uuid = str(uuid.uuid4())
-KeyFob_uuid = str(uuid.uuid4())
-
-Omission_uuid = str(uuid.uuid4())
-
 def main():
-    KnowledgeBase = create_KnowledgeBase(t_name, t_id, t_version, t_author)
-    doc.appendChild(KnowledgeBase)
+    KnowledgeBase_node = KnowledgeBase(t_name, t_version, t_author)
+    # KnowledgeBase = create_KnowledgeBase(t_name, t_id, t_version, t_author)
+    root = KnowledgeBase_node.create_KnowledgeBase()
+    doc.appendChild(root)
 
-    if KnowledgeBase.hasChildNodes():
-        for node in KnowledgeBase.childNodes:
+    if root.hasChildNodes():
+        for node in root.childNodes:
             if node.nodeName == "ThreatMetaData":
                 Title = PropertiesMetaData("Title", "Title", "false", "", "0")
                 Title.create_Values("Not Set")
@@ -53,7 +40,7 @@ def main():
 
                 PropertiesMetaData_node = create_PropertiesMetaData(Title.create_ThreatMetaDatum(), UserThreatCategory.create_ThreatMetaDatum(), UserThreatShortDescription.create_ThreatMetaDatum(), UserThreatDescription.create_ThreatMetaDatum(), StateInformation.create_ThreatMetaDatum(), InteractionString.create_ThreatMetaDatum(), Priority.create_ThreatMetaDatum())
                 ThreatMetaData_new = create_ThreatMetaData("true", "true", PropertiesMetaData_node)
-                KnowledgeBase.replaceChild(ThreatMetaData_new, node)
+                root.replaceChild(ThreatMetaData_new, node)
                 continue
 
             elif node.nodeName == "GenericElements":
@@ -133,10 +120,6 @@ def main():
                 Priority.create_Values("High")
                 PropertiesMetaData_node = create_PropertiesMetaData(UserThreatDescription.create_ThreatMetaDatum(), Priority.create_ThreatMetaDatum())
                 node.appendChild(ThreatType_Value.create_ThreatType(PropertiesMetaData_node))
-
-
-
-
 
 # Output the XML file to disk.
     create_xml_file()

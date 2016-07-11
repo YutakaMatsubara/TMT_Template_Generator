@@ -21,6 +21,37 @@ doc = Document()
 # |--StandardElements
 # |--ThreaCategories
 # |--ThreatTypes
+class KnowledgeBase:
+    def __init__(self, name, version, author):
+        self.name = name
+        self.id = str(uuid.uuid4())
+        self.version = version
+        self.author = author
+
+
+    def create_KnowledgeBase(self):
+        KnowledgeBase = doc.createElement("KnowledgeBase")
+        KnowledgeBase.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
+        KnowledgeBase.setAttribute("xmlns:xsd", "http://www.w3.org/2001/XMLSchema")
+
+        Manifest = doc.createElement("Manifest")
+        Manifest.setAttribute("name", self.name)
+        Manifest.setAttribute("id", self.id)
+        Manifest.setAttribute("version", self.version)
+        Manifest.setAttribute("author", self.author)
+        KnowledgeBase.appendChild(Manifest)
+
+        KnowledgeBase.appendChild(doc.createElement("ThreatMetaData"))
+        KnowledgeBase.appendChild(doc.createElement("GenericElements"))
+        KnowledgeBase.appendChild(doc.createElement("StandardElements"))
+        KnowledgeBase.appendChild(doc.createElement("ThreatCategories"))
+        KnowledgeBase.appendChild(doc.createElement("ThreatTypes"))
+
+        return KnowledgeBase
+
+    def id(self):
+        return self.id
+
 def create_KnowledgeBase(name, id, version, author):
     KnowledgeBase_Children = ["Manifest", "ThreatMetaData", "GenericElements", "StandardElements", "ThreatCategories", "ThreatTypes"]
     KnowledgeBase = doc.createElement("KnowledgeBase")
