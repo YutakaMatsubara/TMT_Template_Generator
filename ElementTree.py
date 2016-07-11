@@ -153,8 +153,11 @@ class GenericElement:
 
     def __init__(self, name, description, parent_element, image, hidden, representation, stroke_thickness, image_location, attributes):
 
-        self.name = name     
-        self.id = str(uuid.uuid4())
+        self.name = name
+        if self.name == "Free Text Annotation":
+            self.id = "GE.A"
+        else:
+            self.id = str(uuid.uuid4())
         self.description = description
         self.parent_element = parent_element
         self.image = image
