@@ -37,26 +37,6 @@ def create_KnowledgeBase(name, id, version, author):
         KnowledgeBase.appendChild(KnowledgeBase_child)
     return KnowledgeBase
 
-# create child element for Values: value
-# |Values
-# |--value
-# |--value
-# |--value
-# |--...
-def create_Values(*values):
-    Values = doc.createElement("Values")
-    for v in values:
-        if v == "":
-            return ""
-        elif v == "Not Set":
-            Values.appendChild(doc.createElement("Value"))
-            return Values
-        else:
-            Value = doc.createElement("Value")
-            Value.appendChild(doc.createTextNode(str(v)))
-            Values.appendChild(Value)
-    return Values
-
 # create child element for ThreatMetaDatum: Name, Label, HideFromUI, Values(Value), Id, AttributeType
 # |ThreaMetaDatum
 # |--Name
@@ -67,14 +47,32 @@ def create_Values(*values):
 # |--Id
 # |--AttributeType
 class PropertiesMetaData:
-    def __init__(self, name, label, hide_from_ui, values, description, attributes_type):
+    def __init__(self, name, label, hide_from_ui, description, attributes_type):
         self.name = name
         self.label = label
         self.hide_from_ui = hide_from_ui
-        self.values = values
         self.description = description
         self.id = str(uuid.uuid4())
         self.attributes_type = attributes_type
+
+    # create child element for Values: value
+    # |Values
+    # |--value
+    # |--value
+    # |--value
+    # |--...
+    def create_Values(self, *values):
+        Values = doc.createElement("Values")
+        for v in values:
+            if v == "":
+                continue
+            elif v == "Not Set":
+                Values.appendChild(doc.createElement("Value"))
+            else:
+                Value = doc.createElement("Value")
+                Value.appendChild(doc.createTextNode(str(v)))
+                Values.appendChild(Value)
+        self.values = Values
 
     def create_ThreatMetaDatum(self):
         ThreatMetaDatum = doc.createElement("ThreatMetaDatum")
@@ -94,17 +92,15 @@ class PropertiesMetaData:
             ThreatMetaDatum_hide_from_ui.appendChild(doc.createTextNode(self.hide_from_ui))
         ThreatMetaDatum.appendChild(ThreatMetaDatum_hide_from_ui)
 
-        ThreatMetaDatum_values = doc.createElement("Values")
-        if self.values != "":
-            ThreatMetaDatum.appendChild(self.values)
+        ThreatMetaDatum.appendChild(self.values)
 
         ThreatMetaDatum_description = doc.createElement("description")
         if self.description != "":
             ThreatMetaDatum_description.appendChild(doc.createTextNode(self.description))
-        ThreatMetaDatum.appendChild(ThreatMetaDatum_description)  
+            ThreatMetaDatum.appendChild(ThreatMetaDatum_description)  
 
         ThreatMetaDatum_id = doc.createElement("Id")
-        ThreatMetaDatum_label.appendChild(doc.createTextNode(self.id))
+        ThreatMetaDatum_id.appendChild(doc.createTextNode(self.id))
         ThreatMetaDatum.appendChild(ThreatMetaDatum_id)  
 
         ThreatMetaDatum_attributes_type = doc.createElement("AttributeType")
@@ -117,8 +113,6 @@ class PropertiesMetaData:
     def id(self):
         return self.id
 
-    def changeValues(self, new_values):
-        self.values = new_values
 
 # create child element for ThreatMetaData: IsPriorityUsed, IsStatusUsed, PropertiesMetaData
 # |KnowledgeBase
@@ -328,16 +322,6 @@ class ThreatCategory:
     def id(self):
         return self.id
 
-class ThreatType:
-    def __init__(self, generation_filters, short_title, category, related_category, description, properties_meta_data):
-        self.generation_filters = generation_filters
-        self.id = str(uuid.uuid4())
-        self.short_title = short_title
-        self.category = category
-        self.related_category = related_category
-        self.description = description
-        self.properties_meta_data = properties_meta_data
-
 def AND(and1, and2):
     AND = and1 + " and " + and2
     return AND
@@ -345,43 +329,6 @@ def AND(and1, and2):
 def OR(or1, or2):
     OR = or1 + " or " + or2
     return OR
-
-def create_IncludeStatement(id1, id2):
-    id1 = "'" + id1 + "'"
-    id2 = "'" + id2 + "'"
-
-    source = "source is"
-    target = "target is"
-
-    Include1 = "(" + AND(source + " " + id1, target + " " + id2) + ")"
-    Include2 = "(" + AND(source + " " + id2, target + " " + id1) + ")"
-    Include = OR(Include1, Include2)
-
-    return Include
-
-# create child element for ThreatType -> GenerationFilters: "Include", "Exclude" 
-# |ThreatType
-# |--GenerationFilters
-# |----Include
-# |----Exclude
-def create_GenerationFilters(include, exclude):
-    GenerationFilters = doc.createElement("GenerationFilters")
-    GenerationFilters.appendChild(doc.createElement("Include"))
-    GenerationFilters.appendChild(doc.createElement("Exclude"))
-
-    for node in GenerationFilters.childNodes:
-        if node.nodeName == "Include" and include != "":
-            node.appendChild(doc.createTextNode(include))
-        elif node.nodeName == "Exclude" and exclude != "":
-            node.appendChild(doc.createTextNode(exclude))
-
-    return GenerationFilters
-
-def create_PropertiesMetaData(*ThreatMetaDatums):
-    PropertiesMetaData = doc.createElement("PropertiesMetaData")
-    for ThreatMetaDatum in ThreatMetaDatums:
-        PropertiesMetaData.appendChild(ThreatMetaDatum)
-    return PropertiesMetaData
 
 # create child element for ThreatType: "GenerationFilters", "Id", "ShortTitle", "Category", "RelatedCategory", "Description", "PropertiesMetaData"
 # |ThreatType
@@ -402,32 +349,84 @@ def create_PropertiesMetaData(*ThreatMetaDatums):
 # |--------Value
 # |------Id
 # |------AttributeType
-def create_ThreatType(generation_filters, id, short_title, category, related_category, description, properties_meta_data):
-    ThreatType_Children = ["GenerationFilters", "Id", "ShortTitle", "Category", "RelatedCategory", "Description", "PropertiesMetaData"]
-    ThreatType = doc.createElement("ThreatType")
-    for child in ThreatType_Children:
-        if child == ThreatType_Children[0]:
-            ThreatType.appendChild(generation_filters)
-            continue
+class ThreatType:
+    def __init__(self, short_title, category, related_category, description):
+        self.id = str(uuid.uuid4())
+        self.short_title = short_title
+        self.category = category
+        self.related_category = related_category
+        self.description = description
 
-        ThreatType_child = doc.createElement(child)
-        ThreatType.appendChild(ThreatType_child)
-        if ThreatType_child.nodeName == ThreatType_Children[1] and id != "":
-            ThreatType_child.appendChild(doc.createTextNode(id))
-        elif ThreatType_child.nodeName == ThreatType_Children[2] and short_title != "":
-            ThreatType_child.appendChild(doc.createTextNode(short_title))
-        elif ThreatType_child.nodeName == ThreatType_Children[3] and category != "":
-            ThreatType_child.appendChild(doc.createTextNode(category))
-        elif ThreatType_child.nodeName == ThreatType_Children[4] and related_category != "":
-            ThreatType_child.appendChild(doc.createTextNode(related_category))
-        elif ThreatType_child.nodeName == ThreatType_Children[5] and description != "":
-            ThreatType_child.appendChild(doc.createTextNode(description))
+    def create_IEStatement(self, id1, id2):
+        id1 = "'" + id1 + "'"
+        id2 = "'" + id2 + "'"
 
-        if child == ThreatType_Children[6]:
-            ThreatType.appendChild(properties_meta_data)
-            continue
+        source = "source is"
+        target = "target is"
 
-    return ThreatType
+        Include1 = "(" + AND(source + " " + id1, target + " " + id2) + ")"
+        Include2 = "(" + AND(source + " " + id2, target + " " + id1) + ")"
+        Include = OR(Include1, Include2)
+
+        self.include = Include
+        self.exclude = ""
+
+    def create_ThreatType(self, properties_meta_data):
+        ThreatType = doc.createElement("ThreatType")
+
+        # create child element for ThreatType -> GenerationFilters: "Include", "Exclude" 
+        # |ThreatType
+        # |--GenerationFilters
+        # |----Include
+        # |----Exclude
+        GenerationFilters = doc.createElement("GenerationFilters")
+        GenerationFilters.appendChild(doc.createElement("Include"))
+        GenerationFilters.appendChild(doc.createElement("Exclude"))
+
+        for node in GenerationFilters.childNodes:
+            if node.nodeName == "Include" and self.include != "":
+                node.appendChild(doc.createTextNode(self.include))
+            elif node.nodeName == "Exclude" and self.exclude != "":
+                node.appendChild(doc.createTextNode(self.exclude))
+
+        ThreatType.appendChild(GenerationFilters) 
+
+        ThreatType_id = doc.createElement("Id")
+        ThreatType_id.appendChild(doc.createTextNode(self.id))
+        ThreatType.appendChild(ThreatType_id)
+
+        ThreatType_short_title = doc.createElement("ShortTitle")
+        if self.short_title != "":
+            ThreatType_short_title.appendChild(doc.createTextNode(self.short_title))
+        ThreatType.appendChild(ThreatType_short_title)
+
+        ThreatType_category = doc.createElement("Category")
+        if self.category != "":
+            ThreatType_category.appendChild(doc.createTextNode(self.category))
+        ThreatType.appendChild(ThreatType_category)
+
+        ThreatType_related_category = doc.createElement("RelatedCategory")
+        if self.related_category != "":
+            ThreatType_related_category.appendChild(doc.createTextNode(self.related_category))
+        ThreatType.appendChild(ThreatType_related_category)
+
+        ThreatType_description = doc.createElement("Description")
+        if self.description != "":
+            ThreatType_description.appendChild(doc.createTextNode(self.description))
+        ThreatType.appendChild(ThreatType_description)
+
+        ThreatType.appendChild(properties_meta_data)
+
+        return ThreatType
+
+    def id(self):
+        return self.id
+
+def create_PropertiesMetaData(*ThreatMetaDatums):
+    PropertiesMetaData = doc.createElement("PropertiesMetaData")
+    for ThreatMetaDatum in ThreatMetaDatums:
+        PropertiesMetaData.appendChild(ThreatMetaDatum)
+    return PropertiesMetaData
 
 # output xml documents to the console as well as to a file named: test.xml
 def create_xml_file():

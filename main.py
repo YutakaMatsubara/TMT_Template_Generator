@@ -30,26 +30,26 @@ def main():
     if KnowledgeBase.hasChildNodes():
         for node in KnowledgeBase.childNodes:
             if node.nodeName == "ThreatMetaData":
-                Title_Values = create_Values("Not Set")
-                Title = PropertiesMetaData("Title", "Title", "false", Title_Values, "", "0")
+                Title = PropertiesMetaData("Title", "Title", "false", "", "0")
+                Title.create_Values("Not Set")
 
-                UserThreatCategory_Values = create_Values("")
-                UserThreatCategory = PropertiesMetaData("UserThreatCategory", "Category", "false", UserThreatCategory_Values, "", "0")
+                UserThreatCategory = PropertiesMetaData("UserThreatCategory", "Category", "false", "", "0")
+                UserThreatCategory.create_Values("")
 
-                UserThreatShortDescription_Values = create_Values("Not Set")
-                UserThreatShortDescription = PropertiesMetaData("UserThreatShortDescription", "Short Description", "false", UserThreatShortDescription_Values, "", "0")
+                UserThreatShortDescription = PropertiesMetaData("UserThreatShortDescription", "Short Description", "false", "", "0")
+                UserThreatShortDescription.create_Values("Not Set")
 
-                UserThreatDescription_Values = create_Values("Not Set")
-                UserThreatDescription = PropertiesMetaData("UserThreatDescription", "Description", "false", UserThreatDescription_Values, "", "0")
+                UserThreatDescription = PropertiesMetaData("UserThreatDescription", "Description", "false", "", "0")
+                UserThreatDescription.create_Values("Not Set")
 
-                StateInformation_Values = create_Values("Not Set")
-                StateInformation = PropertiesMetaData("StateInformation", "Justification", "false", StateInformation_Values, "", "0")
+                StateInformation = PropertiesMetaData("StateInformation", "Justification", "false", "", "0")
+                StateInformation.create_Values("Not Set")
 
-                InteractionString_Values = create_Values("Not Set")
-                InteractionString = PropertiesMetaData("InteractionString", "Interaction", "false", InteractionString_Values, "", "0")
+                InteractionString = PropertiesMetaData("InteractionString", "Interaction", "false", "", "0")
+                InteractionString.create_Values("Not Set")
 
-                Priority_Values = create_Values("High", "Medium", "Low")
-                Priority = PropertiesMetaData("Priority", "Priority", "false", Priority_Values, "Priority", "1")
+                Priority = PropertiesMetaData("Priority", "Priority", "false", "Priority", "1")
+                Priority.create_Values("High", "Medium", "Low")
 
                 PropertiesMetaData_node = create_PropertiesMetaData(Title.create_ThreatMetaDatum(), UserThreatCategory.create_ThreatMetaDatum(), UserThreatShortDescription.create_ThreatMetaDatum(), UserThreatDescription.create_ThreatMetaDatum(), StateInformation.create_ThreatMetaDatum(), InteractionString.create_ThreatMetaDatum(), Priority.create_ThreatMetaDatum())
                 ThreatMetaData_new = create_ThreatMetaData("true", "true", PropertiesMetaData_node)
@@ -104,13 +104,11 @@ def main():
                 node.appendChild(Omission.create_ThreatCategory())
 
             elif node.nodeName == "ThreatTypes":
-                Include1 = create_IncludeStatement(Automobiles_uuid, KeyFob_uuid)
-                GenerationFilters1 = create_GenerationFilters(Include1, "")
-
-                UserThreatDescription.changeValues("{flow.Name} will not be initiated between {source.Name} and {target.Name}.")
+                ThreatType_Omission = ThreatType("Service Omitted", Omission.id, "", "{flow.Name} will not be initiated between {source.Name} and {target.Name}.")
+                ThreatType_Omission.create_IEStatement(Automobiles.id, KeyFob.id)
+                UserThreatDescription.create_Values("{flow.Name} will not be initiated between {source.Name} and {target.Name}.")
                 PropertiesMetaData_node = create_PropertiesMetaData(UserThreatDescription.create_ThreatMetaDatum(), Priority.create_ThreatMetaDatum())
-                ThreatType = create_ThreatType(GenerationFilters1, str(uuid.uuid4()), "Service Omitted", Omission_uuid, "", "{flow.Name} will not be initiated between {source.Name} and {target.Name}.", PropertiesMetaData_node)
-                node.appendChild(ThreatType)
+                node.appendChild(ThreatType_Omission.create_ThreatType(PropertiesMetaData_node))
 
 
 # Output the XML file to disk.
