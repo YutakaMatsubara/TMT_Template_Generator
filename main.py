@@ -107,10 +107,7 @@ def main():
                 Include1 = create_IncludeStatement(Automobiles_uuid, KeyFob_uuid)
                 GenerationFilters1 = create_GenerationFilters(Include1, "")
 
-                UserThreatDescription_Values = create_Values("{flow.Name} will not be initiated between {source.Name} and {target.Name}.")
-                UserThreatDescription = PropertiesMetaData("UserThreatDescription", "Description", "false", UserThreatDescription_Values, "", "0")
-                Priority_Values = create_Values("High", "Medium", "Low")
-                Priority = PropertiesMetaData("Priority", "Priority", "false", Priority_Values, "Priority", "1")
+                UserThreatDescription.changeValues("{flow.Name} will not be initiated between {source.Name} and {target.Name}.")
                 PropertiesMetaData_node = create_PropertiesMetaData(UserThreatDescription.create_ThreatMetaDatum(), Priority.create_ThreatMetaDatum())
                 ThreatType = create_ThreatType(GenerationFilters1, str(uuid.uuid4()), "Service Omitted", Omission_uuid, "", "{flow.Name} will not be initiated between {source.Name} and {target.Name}.", PropertiesMetaData_node)
                 node.appendChild(ThreatType)

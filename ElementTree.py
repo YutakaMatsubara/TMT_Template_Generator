@@ -117,6 +117,9 @@ class PropertiesMetaData:
     def id(self):
         return self.id
 
+    def changeValues(self, new_values):
+        self.values = new_values
+
 # create child element for ThreatMetaData: IsPriorityUsed, IsStatusUsed, PropertiesMetaData
 # |KnowledgeBase
 # |--ThreatMetaData
