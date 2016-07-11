@@ -87,11 +87,11 @@ def main():
                 #         Priority = create_ThreatMetaDatum("Priority", "Priority", "false", Priority_Values, "Priority", str(uuid.uuid4()), "1")
                 #         node.appendChild(Priority)
             elif node.nodeName == "GenericElements":
-                Automobiles = create_GenericElementType("Automobiles", Automobiles_uuid, "", "ROOT", "", "false", "Rectangle", "0", "Centered on stencil", "")
-                node.appendChild(Automobiles)
+                Automobiles = GenericElement("Automobiles", "", "ROOT", "", "false", "Rectangle", "0", "", "")
+                node.appendChild(Automobiles.create_ElementType())
 
-                KeyFob = create_GenericElementType("Key Fob", KeyFob_uuid, "", "ROOT", "", "false", "Rectangle", "0", "Centered on stencil", "")
-                node.appendChild(KeyFob)
+                KeyFob = GenericElement("Key Fob", "", "ROOT", "", "false", "Rectangle", "0", "", "")
+                node.appendChild(KeyFob.create_ElementType())
             elif node.nodeName == "StandardElements":
                 StandardElementType = create_StandardElementType("Unlocking the door",  str(uuid.uuid4()), "", str(uuid.uuid4()), "", "", "false", "Line", "0", "", "")
                 node.appendChild(StandardElementType)
