@@ -10,7 +10,6 @@ t_author = "TMT Template Generator"
 
 def main():
     KnowledgeBase_node = KnowledgeBase(t_name, t_version, t_author)
-    # KnowledgeBase = create_KnowledgeBase(t_name, t_id, t_version, t_author)
     root = KnowledgeBase_node.create_KnowledgeBase()
     doc.appendChild(root)
 
