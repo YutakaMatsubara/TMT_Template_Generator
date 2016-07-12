@@ -52,6 +52,7 @@ class KnowledgeBase:
     def id(self):
         return self.id
 
+# Legacy method for creating KnowledgeBase
 def create_KnowledgeBase(name, id, version, author):
     KnowledgeBase_Children = ["Manifest", "ThreatMetaData", "GenericElements", "StandardElements", "ThreatCategories", "ThreatTypes"]
     KnowledgeBase = doc.createElement("KnowledgeBase")
