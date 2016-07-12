@@ -2,11 +2,14 @@ import xml.dom.minidom
 import uuid
 
 from ElementTree import *
+from xmlparsing import *
 
 t_name = "Service Level"
 t_id = str(uuid.uuid4())
 t_version = "1.0.0.2"
 t_author = "TMT Template Generator"
+
+Threats = parse_xml("database.xml")
 
 def main():
     KnowledgeBase_node = KnowledgeBase(t_name, t_version, t_author)
@@ -69,56 +72,71 @@ def main():
                 node.appendChild(LockingTheDoor.create_ElementType())
 
             elif node.nodeName == "ThreatCategories":
-                Omission = ThreatCategory("Omission", "The service is never deliverd.")
-                node.appendChild(Omission.create_ThreatCategory())
+                ThreatCategories = []
 
-                Commision = ThreatCategory("Commision", "A service is delivered when not required.")
-                node.appendChild(Commision.create_ThreatCategory())
+                for (i, Threat) in enumerate(Threats):
+                    ThreatCategories.insert(i, ThreatCategory(Threat.TCName, Threat.TCShortDescription))
+                    node.appendChild(ThreatCategories[i].create_ThreatCategory())
 
-                Early = ThreatCategory("Early", "The service (communication) occurs earlier than intended.")
-                node.appendChild(Early.create_ThreatCategory())
+                # Omission = ThreatCategory("Omission", "The service is never deliverd.")
+                # node.appendChild(Omission.create_ThreatCategory())
 
-                Late = ThreatCategory("Late", "The Service (communication) occurs later than intended.")
-                node.appendChild(Late.create_ThreatCategory())
+                # Commision = ThreatCategory("Commision", "A service is delivered when not required.")
+                # node.appendChild(Commision.create_ThreatCategory())
 
-                Value = ThreatCategory("Value", "The information (data) delivered has the wrong value.")
-                node.appendChild(Value.create_ThreatCategory())
+                # Early = ThreatCategory("Early", "The service (communication) occurs earlier than intended.")
+                # node.appendChild(Early.create_ThreatCategory())
+
+                # Late = ThreatCategory("Late", "The Service (communication) occurs later than intended.")
+                # node.appendChild(Late.create_ThreatCategory())
+
+                # Value = ThreatCategory("Value", "The information (data) delivered has the wrong value.")
+                # node.appendChild(Value.create_ThreatCategory())
 
             elif node.nodeName == "ThreatTypes":
-                ThreatType_Omission = ThreatType("Service Omitted", Omission.id, "", "{flow.Name} will not be initiated between {source.Name} and {target.Name}.")
-                ThreatType_Omission.create_IEStatement(Automobiles.id, KeyFob.id)
-                UserThreatDescription.create_Values("{flow.Name} will not be initiated between {source.Name} and {target.Name}.")
-                Priority.create_Values("High")
-                PropertiesMetaData_node = create_PropertiesMetaData(UserThreatDescription.create_ThreatMetaDatum(), Priority.create_ThreatMetaDatum())
-                node.appendChild(ThreatType_Omission.create_ThreatType(PropertiesMetaData_node))
+                ThreatTypes = []
 
-                ThreatType_Commision = ThreatType("Unproper Service Commision", Commision.id, "", "{flow.Name} will be commited, regardless of user's intention.")
-                ThreatType_Commision.create_IEStatement(Automobiles.id, KeyFob.id)
-                UserThreatDescription.create_Values("{flow.Name} will be commited, regardless of user's intention.")
-                Priority.create_Values("High")
-                PropertiesMetaData_node = create_PropertiesMetaData(UserThreatDescription.create_ThreatMetaDatum(), Priority.create_ThreatMetaDatum())
-                node.appendChild(ThreatType_Commision.create_ThreatType(PropertiesMetaData_node))
+                for (i, Threat) in enumerate(Threats):
+                    ThreatTypes.insert(i, ThreatType(Threat.TTShortTitle, ThreatCategories[i].id, "", Threat.TTDescription))
+                    ThreatTypes[i].create_IEStatement(Automobiles.id, KeyFob.id)
+                    UserThreatDescription.create_Values(Threat.TTDescription)
+                    Priority.create_Values(Threat.TTPriority)
+                    PropertiesMetaData_node = create_PropertiesMetaData(UserThreatDescription.create_ThreatMetaDatum(), Priority.create_ThreatMetaDatum())
+                    node.appendChild(ThreatTypes[i].create_ThreatType(PropertiesMetaData_node))
+            #     ThreatType_Omission = ThreatType("Service Omitted", Omission.id, "", "{flow.Name} will not be initiated between {source.Name} and {target.Name}.")
+            #     ThreatType_Omission.create_IEStatement(Automobiles.id, KeyFob.id)
+            #     UserThreatDescription.create_Values("{flow.Name} will not be initiated between {source.Name} and {target.Name}.")
+            #     Priority.create_Values("High")
+            #     PropertiesMetaData_node = create_PropertiesMetaData(UserThreatDescription.create_ThreatMetaDatum(), Priority.create_ThreatMetaDatum())
+            #     node.appendChild(ThreatType_Omission.create_ThreatType(PropertiesMetaData_node))
 
-                ThreatType_Early = ThreatType("Early Commited Service", Early.id, "", "It takes shorter than usual for service of {flow.Name} between {source.Name} and {target.Name}")
-                ThreatType_Early.create_IEStatement(Automobiles.id, KeyFob.id)
-                UserThreatDescription.create_Values("It takes shorter than usual for service of {flow.Name} between {source.Name} and {target.Name}")
-                Priority.create_Values("Low")
-                PropertiesMetaData_node = create_PropertiesMetaData(UserThreatDescription.create_ThreatMetaDatum(), Priority.create_ThreatMetaDatum())
-                node.appendChild(ThreatType_Early.create_ThreatType(PropertiesMetaData_node))
+            #     ThreatType_Commision = ThreatType("Unproper Service Commision", Commision.id, "", "{flow.Name} will be commited, regardless of user's intention.")
+            #     ThreatType_Commision.create_IEStatement(Automobiles.id, KeyFob.id)
+            #     UserThreatDescription.create_Values("{flow.Name} will be commited, regardless of user's intention.")
+            #     Priority.create_Values("High")
+            #     PropertiesMetaData_node = create_PropertiesMetaData(UserThreatDescription.create_ThreatMetaDatum(), Priority.create_ThreatMetaDatum())
+            #     node.appendChild(ThreatType_Commision.create_ThreatType(PropertiesMetaData_node))
 
-                ThreatType_Late = ThreatType("Unproper Service Commision", Late.id, "", "It takes longer than usual to commit the service of {flow.Name} between {source.Name} and {target.Name}.")
-                ThreatType_Late.create_IEStatement(Automobiles.id, KeyFob.id)
-                UserThreatDescription.create_Values("It takes longer than usual to commit the service of {flow.Name} between {source.Name} and {target.Name}.")
-                Priority.create_Values("Medium")
-                PropertiesMetaData_node = create_PropertiesMetaData(UserThreatDescription.create_ThreatMetaDatum(), Priority.create_ThreatMetaDatum())
-                node.appendChild(ThreatType_Late.create_ThreatType(PropertiesMetaData_node))
+            #     ThreatType_Early = ThreatType("Early Commited Service", Early.id, "", "It takes shorter than usual for service of {flow.Name} between {source.Name} and {target.Name}")
+            #     ThreatType_Early.create_IEStatement(Automobiles.id, KeyFob.id)
+            #     UserThreatDescription.create_Values("It takes shorter than usual for service of {flow.Name} between {source.Name} and {target.Name}")
+            #     Priority.create_Values("Low")
+            #     PropertiesMetaData_node = create_PropertiesMetaData(UserThreatDescription.create_ThreatMetaDatum(), Priority.create_ThreatMetaDatum())
+            #     node.appendChild(ThreatType_Early.create_ThreatType(PropertiesMetaData_node))
 
-                ThreatType_Value = ThreatType("Unproper Service Commision", Value.id, "", "A completely different service rather than {flow.Name} between {source.Name} and {target.Name} will be commited.")
-                ThreatType_Value.create_IEStatement(Automobiles.id, KeyFob.id)
-                UserThreatDescription.create_Values("A completely different service rather than {flow.Name} between {source.Name} and {target.Name} will be commited.")
-                Priority.create_Values("High")
-                PropertiesMetaData_node = create_PropertiesMetaData(UserThreatDescription.create_ThreatMetaDatum(), Priority.create_ThreatMetaDatum())
-                node.appendChild(ThreatType_Value.create_ThreatType(PropertiesMetaData_node))
+            #     ThreatType_Late = ThreatType("Unproper Service Commision", Late.id, "", "It takes longer than usual to commit the service of {flow.Name} between {source.Name} and {target.Name}.")
+            #     ThreatType_Late.create_IEStatement(Automobiles.id, KeyFob.id)
+            #     UserThreatDescription.create_Values("It takes longer than usual to commit the service of {flow.Name} between {source.Name} and {target.Name}.")
+            #     Priority.create_Values("Medium")
+            #     PropertiesMetaData_node = create_PropertiesMetaData(UserThreatDescription.create_ThreatMetaDatum(), Priority.create_ThreatMetaDatum())
+            #     node.appendChild(ThreatType_Late.create_ThreatType(PropertiesMetaData_node))
+
+            #     ThreatType_Value = ThreatType("Unproper Service Commision", Value.id, "", "A completely different service rather than {flow.Name} between {source.Name} and {target.Name} will be commited.")
+            #     ThreatType_Value.create_IEStatement(Automobiles.id, KeyFob.id)
+            #     UserThreatDescription.create_Values("A completely different service rather than {flow.Name} between {source.Name} and {target.Name} will be commited.")
+            #     Priority.create_Values("High")
+            #     PropertiesMetaData_node = create_PropertiesMetaData(UserThreatDescription.create_ThreatMetaDatum(), Priority.create_ThreatMetaDatum())
+            #     node.appendChild(ThreatType_Value.create_ThreatType(PropertiesMetaData_node))
 
 # Output the XML file to disk.
     create_xml_file()
