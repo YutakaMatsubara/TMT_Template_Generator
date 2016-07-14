@@ -464,10 +464,11 @@ def create_PropertiesMetaData(*ThreatMetaDatums):
     return PropertiesMetaData
 
 # output xml documents to the console as well as to a file named: test.xml
-def create_xml_file():
+def create_xml_file(filename):
+    filename = filename + ".tb7"
     # to console
     print (doc.toprettyxml(indent="  ", encoding="utf-8"))
     # to file
-    f = open("test.xml", "w+")
+    f = open(filename, "w+")
     f.write(doc.toprettyxml(indent="  ", encoding="utf-8").decode("utf-8"))
     f.close

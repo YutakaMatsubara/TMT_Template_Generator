@@ -9,7 +9,16 @@ t_id = str(uuid.uuid4())
 t_version = "1.0.0.2"
 t_author = "TMT Template Generator"
 
-Threats = parse_xml("database.xml")
+while True:
+    filein = input("Enter the database filename:")
+    if(filein.endswith(".xml")):
+        break
+    else:
+        print("Error: Database should be xml formatted.")
+
+fileout = input("Enter the output file name(without any suffix):")
+
+Threats = parse_xml(filein)
 
 def main():
     KnowledgeBase_node = KnowledgeBase(t_name, t_version, t_author)
@@ -139,7 +148,7 @@ def main():
             #     node.appendChild(ThreatType_Value.create_ThreatType(PropertiesMetaData_node))
 
 # Output the XML file to disk.
-    create_xml_file()
+    create_xml_file(fileout)
 
 if __name__ == "__main__":
     main();

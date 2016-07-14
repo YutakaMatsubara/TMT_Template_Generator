@@ -31,4 +31,4 @@ A TMT formatted template ready to be imported into Threat Modeling Tool 2016.
 4. Open the main.py script, locate the statement of Threats = parse_xml("database.xml"). Change the database.xml to your database file name.
 5. Python-run the main.py script to start generating the TMT template.
 6. **Automation still under development. Coming out soon.** You should notice a test.xml file created inside the folder. Please rename the file to anyname you want but end with the filename extention of tb7. e.g. NewTemplate.tb7.
-7. Launch the TMT 2016, then import the template, and startcreating your security model and analyzing your model.
+7. Launch the TMT 2016, then import the template, and start creating your security model and analyzing your model.
