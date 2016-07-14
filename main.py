@@ -9,14 +9,17 @@ t_id = str(uuid.uuid4())
 t_version = "1.0.0.2"
 t_author = "TMT Template Generator"
 
-while True:
-    filein = input("Enter the database filename:")
-    if(filein.endswith(".xml")):
-        break
-    else:
-        print("Error: Database should be xml formatted.")
+# while True:
+#     filein = input("Enter the database filename:")
+#     if(filein.endswith(".xml")):
+#         break
+#     else:
+#         print("Error: Database should be xml formatted.")
 
-fileout = input("Enter the output file name(without any suffix):")
+# fileout = input("Enter the output file name(without any suffix):")
+
+filein = "database.xml"
+fileout = "Service Level"
 
 Threats = parse_xml(filein)
 
@@ -44,7 +47,7 @@ def main():
                 StateInformation.create_Values("Not Set")
 
                 InteractionString = PropertiesMetaData("InteractionString", "Interaction", "false", "", "0")
-                InteractionString.create_Values("Not Set")
+                InteractionString.create_Values("")
 
                 Priority = PropertiesMetaData("Priority", "Priority", "false", "Priority", "1")
                 Priority.create_Values("High", "Medium", "Low")

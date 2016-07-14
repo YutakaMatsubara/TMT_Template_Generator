@@ -8,6 +8,7 @@ Created on Jun 3, 2016
 
 from xml.dom.minidom import Document
 import uuid
+import sys
 
 # create minidom-document
 doc = Document()
@@ -97,7 +98,7 @@ class PropertiesMetaData:
         Values = doc.createElement("Values")
         for v in values:
             if v == "":
-                continue
+                pass
             elif v == "Not Set":
                 Values.appendChild(doc.createElement("Value"))
             else:
@@ -105,6 +106,7 @@ class PropertiesMetaData:
                 Value.appendChild(doc.createTextNode(str(v)))
                 Values.appendChild(Value)
         self.values = Values
+        print (Values.toprettyxml(indent="  ", encoding="utf-8"))
 
     def create_ThreatMetaDatum(self):
         ThreatMetaDatum = doc.createElement("ThreatMetaDatum")
@@ -124,7 +126,8 @@ class PropertiesMetaData:
             ThreatMetaDatum_hide_from_ui.appendChild(doc.createTextNode(self.hide_from_ui))
         ThreatMetaDatum.appendChild(ThreatMetaDatum_hide_from_ui)
 
-        ThreatMetaDatum.appendChild(self.values)
+        if(self.values.hasChildNodes()):
+            ThreatMetaDatum.appendChild(self.values)
 
         ThreatMetaDatum_description = doc.createElement("description")
         if self.description != "":
@@ -467,8 +470,12 @@ def create_PropertiesMetaData(*ThreatMetaDatums):
 def create_xml_file(filename):
     filename = filename + ".tb7"
     # to console
-    print (doc.toprettyxml(indent="  ", encoding="utf-8"))
+    # print (doc.toprettyxml(indent="  ", encoding="utf-8"))
     # to file
-    f = open(filename, "w+")
+    try:
+        f = open(filename, "w+")
+    except IOError as e:
+        print("Could not open the file.", e)
+        sys.exit()
     f.write(doc.toprettyxml(indent="  ", encoding="utf-8").decode("utf-8"))
     f.close

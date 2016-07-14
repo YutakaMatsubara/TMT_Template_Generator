@@ -1,4 +1,5 @@
 import xml.dom.minidom
+import sys
 
 Threats = []
 
@@ -28,7 +29,11 @@ class Threat:
 
 def parse_xml(db):
 	# use the parse() funciton to load and parse an XML file
-	doc = xml.dom.minidom.parse(db)
+	try:
+		doc = xml.dom.minidom.parse(db)
+	except FileNotFoundError as e:
+		print("Could not open the file.", e)
+		sys.exit()
 
 	print(doc.nodeName)
 	print(doc.firstChild.tagName)
