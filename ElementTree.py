@@ -133,10 +133,10 @@ class PropertiesMetaData:
         if self.description != "":
             ThreatMetaDatum_description.appendChild(doc.createTextNode(self.description))
             ThreatMetaDatum.appendChild(ThreatMetaDatum_description)  
-
-        ThreatMetaDatum_id = doc.createElement("Id")
-        ThreatMetaDatum_id.appendChild(doc.createTextNode(self.id))
-        ThreatMetaDatum.appendChild(ThreatMetaDatum_id)  
+        if self.name != "UserThreatCategory":
+            ThreatMetaDatum_id = doc.createElement("Id")
+            ThreatMetaDatum_id.appendChild(doc.createTextNode(self.id))
+            ThreatMetaDatum.appendChild(ThreatMetaDatum_id)  
 
         ThreatMetaDatum_attributes_type = doc.createElement("AttributeType")
         if self.attributes_type != "":

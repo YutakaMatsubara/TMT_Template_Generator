@@ -30,9 +30,14 @@ class Threat:
 def parse_xml(db):
 	# use the parse() funciton to load and parse an XML file
 	try:
+		if(not db.endswith(".xml")):
+			raise ValueError("File name must end with .xml.")
 		doc = xml.dom.minidom.parse(db)
 	except FileNotFoundError as e:
-		print("Could not open the file.", e)
+		print("Abort: Could not open the file.", e)
+		sys.exit()
+	except ValueError as e:
+		print("Abort: Bad file name.", e)
 		sys.exit()
 
 	print(doc.nodeName)

@@ -19,7 +19,7 @@ t_author = "TMT Template Generator"
 # fileout = input("Enter the output file name(without any suffix):")
 
 filein = "database.xml"
-fileout = "Service Level"
+fileout = "Test Template"
 
 Threats = parse_xml(filein)
 
