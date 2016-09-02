@@ -19,9 +19,11 @@ t_author = "TMT Template Generator"
 # fileout = input("Enter the output file name(without any suffix):")
 
 filein = "database.xml"
+filein2 = "stencil.xml"
 fileout = "Test Template"
 
 Threats = parse_xml(filein)
+Stencils = parse_xml2(filein2)
 
 def main():
     KnowledgeBase_node = KnowledgeBase(t_name, t_version, t_author)
@@ -58,30 +60,38 @@ def main():
                 continue
 
             elif node.nodeName == "GenericElements":
-                Automobiles = GenericElement("Automobiles", "", "ROOT", "", "false", "Rectangle", "0", "", "")
-                node.appendChild(Automobiles.create_ElementType())
 
-                KeyFob = GenericElement("Key Fob", "", "ROOT", "", "false", "Rectangle", "0", "", "")
-                node.appendChild(KeyFob.create_ElementType())
+                StencilsInfo = []
 
-                KeyFobAuth = GenericElement("Key fob authorization within the communication range", "", "ROOT", "", "false", "Line", "0", "", "")
-                node.appendChild(KeyFobAuth.create_ElementType())
+                for (i, Stencil) in enumerate(Stencils):
+                    StencilsInfo.insert(i, GenericElement(Stencil.GEName, "", "ROOT", "", "false", Stencil.GERepresentation, "0", "", ""))
+                    node.appendChild(StencilsInfo[i].create_ElementType())
 
-                GenericOperationalRequest = GenericElement("Generic Operational Request", "", "ROOT", "", "false", "Line", "0", "", "")
-                node.appendChild(GenericOperationalRequest.create_ElementType())
+                # Automobiles = GenericElement("Automobiles", "", "ROOT", "", "false", "Rectangle", "0", "", "")
+                # node.appendChild(Automobiles.create_ElementType())
 
-                FreeTextAnnotation = GenericElement("Free Text Annotation", "A representation of an annotation.", "ROOT", "", "true", "Annotation", "0", "", "")
-                node.appendChild(FreeTextAnnotation.create_ElementType())
+                # KeyFob = GenericElement("Key Fob", "", "ROOT", "", "false", "Rectangle", "0", "", "")
+                # node.appendChild(KeyFob.create_ElementType())
+
+                # KeyFobAuth = GenericElement("Key fob authorization within the communication range", "", "ROOT", "", "false", "Line", "0", "", "")
+                # node.appendChild(KeyFobAuth.create_ElementType())
+
+                # GenericOperationalRequest = GenericElement("Generic Operational Request", "", "ROOT", "", "false", "Line", "0", "", "")
+                # node.appendChild(GenericOperationalRequest.create_ElementType())
+
+                # FreeTextAnnotation = GenericElement("Free Text Annotation", "A representation of an annotation.", "ROOT", "", "true", "Annotation", "0", "", "")
+                # node.appendChild(FreeTextAnnotation.create_ElementType())
 
             elif node.nodeName == "StandardElements":
-                UnlockingTheDoor = StandardElement("Unlocking the door", "", GenericOperationalRequest.id, "", "", "false", "Line", "0", "", "")
-                node.appendChild(UnlockingTheDoor.create_ElementType())
+                pass
+                # UnlockingTheDoor = StandardElement("Unlocking the door", "", GenericOperationalRequest.id, "", "", "false", "Line", "0", "", "")
+                # node.appendChild(UnlockingTheDoor.create_ElementType())
 
-                OpeningTheTrunk = StandardElement("Opening the trunk", "", GenericOperationalRequest.id, "", "", "false", "Line", "0", "", "")
-                node.appendChild(OpeningTheTrunk.create_ElementType())
+                # OpeningTheTrunk = StandardElement("Opening the trunk", "", GenericOperationalRequest.id, "", "", "false", "Line", "0", "", "")
+                # node.appendChild(OpeningTheTrunk.create_ElementType())
 
-                LockingTheDoor = StandardElement("Locking the door", "", GenericOperationalRequest.id, "", "", "false", "Line", "0", "", "")
-                node.appendChild(LockingTheDoor.create_ElementType())
+                # LockingTheDoor = StandardElement("Locking the door", "", GenericOperationalRequest.id, "", "", "false", "Line", "0", "", "")
+                # node.appendChild(LockingTheDoor.create_ElementType())
 
             elif node.nodeName == "ThreatCategories":
                 ThreatCategories = []
@@ -110,7 +120,8 @@ def main():
 
                 for (i, Threat) in enumerate(Threats):
                     ThreatTypes.insert(i, ThreatType(Threat.TTShortTitle, ThreatCategories[i].id, "", Threat.TTDescription))
-                    ThreatTypes[i].create_IEStatement(Automobiles.id, KeyFob.id)
+                    # ThreatTypes[i].create_IEStatement(Automobiles.id, KeyFob.id)
+                    ThreatTypes[i].create_IEStatement(StencilsInfo[0].id, StencilsInfo[1].id)
                     UserThreatDescription.create_Values(Threat.TTDescription)
                     Priority.create_Values(Threat.TTPriority)
                     PropertiesMetaData_node = create_PropertiesMetaData(UserThreatDescription.create_ThreatMetaDatum(), Priority.create_ThreatMetaDatum())
