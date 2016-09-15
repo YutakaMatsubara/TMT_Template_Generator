@@ -106,7 +106,7 @@ class PropertiesMetaData:
                 Value.appendChild(doc.createTextNode(str(v)))
                 Values.appendChild(Value)
         self.values = Values
-        print (Values.toprettyxml(indent="  ", encoding="utf-8"))
+        # print (Values.toprettyxml(indent="  ", encoding="utf-8"))
 
     def create_ThreatMetaDatum(self):
         ThreatMetaDatum = doc.createElement("ThreatMetaDatum")
@@ -478,4 +478,6 @@ def create_xml_file(filename):
         print("Could not open the file.", e)
         sys.exit()
     f.write(doc.toprettyxml(indent="  ", encoding="utf-8").decode("utf-8"))
+    print("Successfully generated templated file: %s." % filename)
+    print("You may now start modelling and analysing the system.")
     f.close

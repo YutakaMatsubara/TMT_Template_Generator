@@ -21,13 +21,13 @@ class Threat:
 			self.TTPriority = attribute
 
 	def showThreat(self):
-		print("===== %s =====" % self.TCName)
-		print(self.TCName)
-		print(self.TCShortDescription)
-		print(self.TTShortTitle)
-		print(self.TTDescription)
-		print(self.TTPriority)
-		print("===== %s =====" % self.TCName)
+		print("========== Add threat information ==========")
+		print("  Guideword: %s" % self.TCName)
+		print("Description: %s" % self.TCShortDescription)
+		print("      Title: %s" % self.TTShortTitle)
+		print("  Deviation: %s" % self.TTDescription)
+		print("   Priority: %s" % self.TTPriority)
+		print("============================================")
 
 class Stencil:
 	
@@ -39,10 +39,10 @@ class Stencil:
 
 
 	def showStencil(self):
-		print("===== %s =====" % self.GEName)
-		print(self.GEName)
-		print(self.GERepresentation)
-		print("===== %s =====" % self.GEName)
+		print("========== Add stencil information ==========")
+		print("          Stencil Name: %s" % self.GEName)
+		print("Stencil Representation: %s" % self.GERepresentation)
+		print("=============================================")
 
 def parse_xml(db):
 	# use the parse() funciton to load and parse an XML file
@@ -57,13 +57,10 @@ def parse_xml(db):
 		print("Abort: Bad file name.", e)
 		sys.exit()
 
-	print(doc.nodeName)
-	print(doc.firstChild.tagName)
-
 	Rows = doc.getElementsByTagName("Row")
 	row_counter = 0
 	threat_counter = 0
-	print("%d Rows:" % Rows.length)
+	# print("%d Rows:" % Rows.length)
 	for (i, Row) in enumerate(Rows):
 		# ignore the header title cells
 		if i == 0:
@@ -94,13 +91,10 @@ def parse_xml2(db):
 		print("Abort: Bad file name.", e)
 		sys.exit()
 
-	print(doc.nodeName)
-	print(doc.firstChild.tagName)
-
 	Rows = doc.getElementsByTagName("Row")
 	row_counter = 0
 	stencil_counter = 0
-	print("%d Rows:" % Rows.length)
+	# print("%d Rows:" % Rows.length)
 	for (i, Row) in enumerate(Rows):
 		# ignore the header title cells
 		if i == 0:

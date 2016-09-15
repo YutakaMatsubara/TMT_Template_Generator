@@ -9,18 +9,21 @@ t_id = str(uuid.uuid4())
 t_version = "1.0.0.2"
 t_author = "TMT Template Generator"
 
-# while True:
-#     filein = input("Enter the database filename:")
-#     if(filein.endswith(".xml")):
-#         break
-#     else:
-#         print("Error: Database should be xml formatted.")
+while True:
+    filein2 = input("Enter the stencils database filename: ")
+    filein = input("Enter the threat information database filename: ")
+    fileout = input("Enter the template filename: ")
+    if(filein.endswith(".xml") and filein2.endswith(".xml")):
+        break
+    else:
+        print("Error: Database should be xml formatted.")
+
 
 # fileout = input("Enter the output file name(without any suffix):")
 
-filein = "database.xml"
-filein2 = "stencil.xml"
-fileout = "Test Template"
+# filein = "database.xml"
+# filein2 = "stencil.xml"
+# fileout = "Test Template"
 
 Threats = parse_xml(filein)
 Stencils = parse_xml2(filein2)
