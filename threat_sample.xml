@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>Microsoft Office User</Author>
+  <LastAuthor>Microsoft Office User</LastAuthor>
+  <Created>2016-07-12T03:17:52Z</Created>
+  <Version>15.0</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+  <PixelsPerInch>96</PixelsPerInch>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>16680</WindowHeight>
+  <WindowWidth>15820</WindowWidth>
+  <WindowTopX>6640</WindowTopX>
+  <WindowTopY>460</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="12" ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="5" ss:ExpandedRowCount="6" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="65" ss:DefaultRowHeight="16">
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">ThreatCategoryName</Data></Cell>
+    <Cell><Data ss:Type="String">ThreatCategoryShortDescription</Data></Cell>
+    <Cell><Data ss:Type="String">ThreatTypeShortTitle</Data></Cell>
+    <Cell><Data ss:Type="String">ThreatTypeDescription</Data></Cell>
+    <Cell><Data ss:Type="String">ThreatTypePriority</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">Omission</Data></Cell>
+    <Cell><Data ss:Type="String">The service is never deliverd.</Data></Cell>
+    <Cell><Data ss:Type="String">Service Omitted</Data></Cell>
+    <Cell><Data ss:Type="String">{flow.Name} will not be initiated between {source.Name} and {target.Name}.</Data></Cell>
+    <Cell><Data ss:Type="String">High</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">Commission</Data></Cell>
+    <Cell><Data ss:Type="String">A service is delivered when not required.</Data></Cell>
+    <Cell><Data ss:Type="String">Unproper Service Commision</Data></Cell>
+    <Cell><Data ss:Type="String">{flow.Name} will be commited, regardless of user's intention.</Data></Cell>
+    <Cell><Data ss:Type="String">High</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">Early</Data></Cell>
+    <Cell><Data ss:Type="String">The service (communication) occurs earlier than intended.</Data></Cell>
+    <Cell><Data ss:Type="String">Early Commited Service</Data></Cell>
+    <Cell><Data ss:Type="String">It takes shorter than usual for service of {flow.Name} between {source.Name} and {target.Name}</Data></Cell>
+    <Cell><Data ss:Type="String">Low</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">Late</Data></Cell>
+    <Cell><Data ss:Type="String">The Service (communication) occurs later than intended.</Data></Cell>
+    <Cell><Data ss:Type="String">Late Commited Service</Data></Cell>
+    <Cell><Data ss:Type="String">It takes longer than usual to commit the service of {flow.Name} between {source.Name} and {target.Name}.</Data></Cell>
+    <Cell><Data ss:Type="String">Medium</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">Value</Data></Cell>
+    <Cell><Data ss:Type="String">The information (data) delivered has the wrong value.</Data></Cell>
+    <Cell><Data ss:Type="String">Wrong Service</Data></Cell>
+    <Cell><Data ss:Type="String">A completely different service rather than {flow.Name} between {source.Name} and {target.Name} will be commited.</Data></Cell>
+    <Cell><Data ss:Type="String">High</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Unsynced/>
+   <PageLayoutZoom>0</PageLayoutZoom>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveCol>4</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

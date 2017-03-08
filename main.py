@@ -56,6 +56,8 @@ def main():
                 root.replaceChild(ThreatMetaData_new, node)
                 continue
 
+            # Manual create element using DOM API are commented out.
+            # Reuse them for any debug needs.
             elif node.nodeName == "GenericElements":
 
                 StencilsInfo = []
